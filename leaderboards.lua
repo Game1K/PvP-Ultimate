@@ -25,10 +25,12 @@ end
 function postToDiscord(kit)
     local rankings = getRankings(kit)
     if rankings == nil then return end
-    local message = "Leaderboards for kit: " .. kit .. '\n' 
+
+    local message = "Leaderboards for kit: " .. kit .. "\n"
     for i, player in ipairs(rankings) do
-        message = message .. i .. ". " .. player.name .. ': ' .. player.score .. '\n'
+        message = message .. i .. ". " .. player.name .. ": " .. player.score .. "\n"
     end
+
     -- Assuming we have a function sendToDiscord that handles Discord API requests
     sendToDiscord(message)
 end
@@ -38,4 +40,39 @@ function logToGitHub(playerName, kit, score)
     -- Logic to interact with GitHub API for logging purposes goes here
 end
 
-return { addPlayer = addPlayer, getRankings = getRankings, postToDiscord = postToDiscord, logToGitHub = logToGitHub }
+-- ============ CHAT COMMAND ============
+
+minetest.register_chatcommand("leaderboards", {
+    description = "Show PvP leaderboards",
+    privs = {},
+    func = function(name, param)
+        local kit = param
+
+        if kit == nil or kit == "" then
+            kit = "overall"
+        end
+
+        local rankings = getRankings(kit)
+
+        if not rankings then
+            return false, "No leaderboard data for kit: " .. kit
+        end
+
+        local msg = "🏆 Leaderboards (" .. kit .. ")\n"
+        msg = msg .. "--------------------------\n"
+
+        for i, player in ipairs(rankings) do
+            msg = msg .. i .. ". " .. player.name .. " - " .. player.score .. "\n"
+        end
+
+        minetest.chat_send_player(name, msg)
+        return true
+    end
+})
+
+return {
+    addPlayer = addPlayer,
+    getRankings = getRankings,
+    postToDiscord = postToDiscord,
+    logToGitHub = logToGitHub
+}

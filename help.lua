@@ -3,7 +3,7 @@
 
 -- ============ HELP COMMAND (UNIFIED) ============
 
-minetest.register_chatcommand("help", {
+minetest.register_chatcommand("modhelp", {
     description = "Show PvP-Ultimate help",
     privs = {},
     func = function(name, param)
@@ -26,7 +26,7 @@ minetest.register_chatcommand("h", {
     description = "Show PvP-Ultimate help (shortened)",
     privs = {},
     func = function(name, param)
-        return minetest.registered_chatcommands["help"].func(name, param)
+        return minetest.registered_chatcommands["modhelp"].func(name, param)
     end
 })
 
@@ -92,10 +92,10 @@ function show_player_help(player_name)
     help = help .. "  • Team battles split by player ELO rating\n"
     help = help .. "  • Leaving during a fight gives opponent the win\n"
     help = help .. "  • Kit names are case-insensitive (/lbs Sword works too)\n"
-    help = help .. "  • Use /h or /help for quick access to this guide\n\n"
+    help = help .. "  • Use /h or /modhelp for quick access to this guide\n\n"
     
     help = help .. string.rep("=", 70) .. "\n"
-    help = help .. "For admin help, use: /help admin\n"
+    help = help .. "For admin help, use: /modhelp admin\n"
     help = help .. string.rep("=", 70) .. "\n"
     
     minetest.chat_send_player(player_name, help)
@@ -151,10 +151,12 @@ function show_admin_help(player_name)
     help = help .. "    - Auto-generates 2-player matches per round\n"
     help = help .. "    - Winners advance to next round\n"
     help = help .. "    - Chat updates on match progress\n\n"
+    
     help = help .. "  Team Battles:\n"
     help = help .. "    - Automatically splits party evenly\n"
     help = help .. "    - Balanced by ELO rating per kit\n"
     help = help .. "    - Unranked players treated as lower rank\n\n"
+    
     help = help .. "  1v1 Hosting:\n"
     help = help .. "    - Leader selects any 2 party members\n"
     help = help .. "    - Other members auto-spectate\n"
@@ -171,6 +173,9 @@ function show_admin_help(player_name)
     help = help .. "  • Use /modhelp to see player-facing help\n\n"
     
     help = help .. string.rep("=", 70) .. "\n"
-    help = help .. "For player help, use: /help\n"
+    help = help .. "For player help, use: /modhelp\n"
     help = help .. string.rep("=", 70) .. "\n"
     
+    minetest.chat_send_player(player_name, help)
+    return true
+end

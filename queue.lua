@@ -16,6 +16,14 @@ function matchPlayers()
     end
 end
 
+PVP_CONFIG = {}
+
+-- ranked match format
+-- 1 = single fight
+-- 3 = best of 3
+-- 5 = best of 5
+PVP_CONFIG.ranked_rounds = 1
+
 -- Function to initiate a duel
 function initiateDuel(player1, player2)
     print("Duel started between " .. player1 .. " and " .. player2)

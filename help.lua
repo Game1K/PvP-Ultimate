@@ -174,11 +174,3 @@ function show_admin_help(player_name)
     help = help .. "For player help, use: /help\n"
     help = help .. string.rep("=", 70) .. "\n"
     
-    minetest.chat_send_player(player_name, help)
-    return true
-end
-
-return {
-    show_player_help = show_player_help,
-    show_admin_help = show_admin_help,
-}
